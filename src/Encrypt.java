@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Encrypt {
+public class   Encrypt {
 
     public static void main(String[] args) throws IOException {
 
@@ -20,7 +20,9 @@ public class Encrypt {
 
         for(int col : orderOfReading){
             for(String row : orderOfStrings){
-                sb.append(row.charAt(col));
+                if( col < row.length()) {
+                    sb.append(row.charAt(col));
+                }
             }
         }
 

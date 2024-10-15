@@ -14,7 +14,7 @@ public class Decrypt {
 
         String solutionCryptoFilePath = "solutionMessage.txt";
         String solutionKeyFile = "solutionKey.txt";
-        String solutionDecryptFilePath = "SolutionDecrypt.txt";
+        String solutionDecryptFilePath = "solutionDecrypt.txt";
 
         String encryptedMessage = encryptMessage(solutionCryptoFilePath);
         List<Integer> orderOfReading = Encrypt.readOrderOfReadingCols(solutionKeyFile);
@@ -23,7 +23,7 @@ public class Decrypt {
         System.out.println(orderOfReading.size());
 
         List<String> result = formTable(encryptedMessage, orderOfReading);
-//
+
         decryptMessage(solutionDecryptFilePath, result);
 
     }
@@ -50,27 +50,31 @@ public class Decrypt {
     }
 
     private static List<String> formTable(String encryptedMessage, List<Integer> orderOfReading) {
-        int rowNum = encryptedMessage.length() / orderOfReading.size();
-        int colNum = encryptedMessage.length() / rowNum;
+        int rowNum = (double) (encryptedMessage.length() / orderOfReading.size()) % 1.0 > 0 ?
+                encryptedMessage.length() / orderOfReading.size() + 1 : encryptedMessage.length() / orderOfReading.size();
+        int colNum = (double) (encryptedMessage.length() / rowNum) % 1.0 > 0 ?
+                encryptedMessage.length() / rowNum : encryptedMessage.length() / rowNum + 1;
 
         List<String> resultedString = new ArrayList<>();
 
         char[][] symbols = new char[rowNum][colNum];
         int idx = 0;
 
-        for(int col : orderOfReading) {
-            for(int row = 0; row < rowNum; row++) {
-                symbols[row][col] = encryptedMessage.charAt(idx++);
+        for (int col : orderOfReading) {
+            for (int row = 0; row < rowNum; row++) {
+                if (row * orderOfReading.size() + col < encryptedMessage.length()) {
+                    symbols[row][col] = encryptedMessage.charAt(idx++);
+                }
             }
         }
         int counter = 0;
 
-        for(char[] chars : symbols) {
+        for (char[] chars : symbols) {
             StringBuilder sb = new StringBuilder();
-            for(char c : chars) {
+            for (char c : chars) {
                 sb.append(c);
             }
-            if(counter % 2 == 0) {
+            if (counter % 2 == 0) {
                 resultedString.add(sb.reverse().toString());
             } else {
                 resultedString.add(sb.toString());
