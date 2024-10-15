@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
-    <file url="file://$PROJECT_DIR$/SolutionDecrypt.txt" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/SolutionMessage.txt" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/var-5-crypto.txt" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/solutionDecrypt.txt" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/solutionMessage.txt" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/var-5-crypto.txt" charset="UTF-8" />
   </component>
 </project>

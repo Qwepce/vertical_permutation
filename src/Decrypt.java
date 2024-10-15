@@ -12,20 +12,15 @@ public class Decrypt {
         String keyFile = "key.txt";
         String decryptFilePath = "decrypt.txt";
 
-        String solutionCryptoFilePath = "solutionMessage.txt";
-        String solutionKeyFile = "solutionKey.txt";
-        String solutionDecryptFilePath = "solutionDecrypt.txt";
+        String myCryptoFilePath = "solutionMessage.txt";
+        String myKeyFile = "solutionKey.txt";
+        String myDecryptFilePath = "solutionDecrypt.txt";
 
-        String encryptedMessage = encryptMessage(solutionCryptoFilePath);
-        List<Integer> orderOfReading = Encrypt.readOrderOfReadingCols(solutionKeyFile);
-
-        System.out.println(encryptedMessage.length());
-        System.out.println(orderOfReading.size());
-
+        String encryptedMessage = encryptMessage(myCryptoFilePath);
+        List<Integer> orderOfReading = Encrypt.readOrderOfReadingCols(myKeyFile);
         List<String> result = formTable(encryptedMessage, orderOfReading);
 
-        decryptMessage(solutionDecryptFilePath, result);
-
+        decryptMessage(myDecryptFilePath, result);
     }
 
     private static void decryptMessage(String decryptFilePath, List<String> result) throws IOException {
@@ -50,23 +45,40 @@ public class Decrypt {
     }
 
     private static List<String> formTable(String encryptedMessage, List<Integer> orderOfReading) {
-        int rowNum = (double) (encryptedMessage.length() / orderOfReading.size()) % 1.0 > 0 ?
-                encryptedMessage.length() / orderOfReading.size() + 1 : encryptedMessage.length() / orderOfReading.size();
-        int colNum = (double) (encryptedMessage.length() / rowNum) % 1.0 > 0 ?
-                encryptedMessage.length() / rowNum : encryptedMessage.length() / rowNum + 1;
+        int rowNum = (encryptedMessage.length() + orderOfReading.size() - 1) / orderOfReading.size();
+        int colNum = orderOfReading.size();
+
+        System.out.println(rowNum);
+        System.out.println(colNum);
 
         List<String> resultedString = new ArrayList<>();
 
         char[][] symbols = new char[rowNum][colNum];
         int idx = 0;
 
-        for (int col : orderOfReading) {
+        if(colNum * orderOfReading.size() > encryptedMessage.length()) {
+            int diff = rowNum * orderOfReading.size() - encryptedMessage.length();
+
+            for(int col = colNum - 1; col >= colNum - diff; col--){
+                symbols[rowNum - 1][col] = '*';
+            }
+        }
+
+        for (int col = 0; col < orderOfReading.size(); col++) {
             for (int row = 0; row < rowNum; row++) {
-                if (row * orderOfReading.size() + col < encryptedMessage.length()) {
+                if (idx < encryptedMessage.length()) {
                     symbols[row][col] = encryptedMessage.charAt(idx++);
                 }
             }
         }
+
+        for(int i = 0; i < rowNum; i++) {
+            for(int j = 0; j < colNum; j++) {
+                System.out.print(symbols[i][j]);
+            }
+            System.out.println();
+        }
+
         int counter = 0;
 
         for (char[] chars : symbols) {
@@ -84,5 +96,4 @@ public class Decrypt {
 
         return resultedString;
     }
-
 }
