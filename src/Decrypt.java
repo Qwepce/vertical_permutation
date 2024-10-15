@@ -64,9 +64,16 @@ public class Decrypt {
             }
         }
 
-        for (int col = 0; col < orderOfReading.size(); col++) {
+        for(int i = 0; i < rowNum; i++) {
+            for(int j = 0; j < colNum; j++) {
+                System.out.print(symbols[i][j]);
+            }
+            System.out.println();
+        }
+
+        for (int col : orderOfReading) {
             for (int row = 0; row < rowNum; row++) {
-                if (idx < encryptedMessage.length()) {
+                if (idx < encryptedMessage.length() && symbols[row][col] != '*') {
                     symbols[row][col] = encryptedMessage.charAt(idx++);
                 }
             }
